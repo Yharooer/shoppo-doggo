@@ -4,12 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Milk1 extends Obstacle {
+public class Milk2 extends Obstacle {
 
-    public Milk1() {
+    public Milk2() {
         this.typeId = 7;
 
-        this.texture = new Texture(Gdx.files.internal("milk1.png"));
+        this.texture = new Texture(Gdx.files.internal("milk2.png"));
         this.width = 217;
         this.height = 135;
 

@@ -8,17 +8,16 @@ public class Meat1 extends Obstacle {
 
     public Meat1() {
         this.typeId = 6;
-        this.boundingHeight = 291;
 
         this.texture = new Texture(Gdx.files.internal("meat1.png"));
-        this.width = 129;
-        this.height = 300;
+        this.width = 237;
+        this.height = 210;
 
         this.groundLevel = 0;
 
         this.groundedItem = false;
 
-        collisionBoxes = new Rectangle[] {new Rectangle(70,9,38,291),
-            new Rectangle(31,42,29,260)};
+        collisionBoxes = new Rectangle[] {new Rectangle(5,70,72,142),
+            new Rectangle(77,0,67,210), new Rectangle(168,32,67,179)};
     }
 }

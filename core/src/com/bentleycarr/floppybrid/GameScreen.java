@@ -2,7 +2,6 @@ package com.bentleycarr.floppybrid;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -73,7 +72,12 @@ public class GameScreen implements Screen {
 
     ArrayList<Obstacle> obstaclePool;
     ArrayList<Obstacle> activeObstacles;
-    float timeSinceLastObstacle;
+    float timeSinceLastObstacleTop;
+    float timeSinceLastObstacleBottom;
+    float widthTop;
+    float widthBottom;
+    float heightTop;
+    float heightBottom;
 
     int score;
     boolean gameOver = false;
@@ -142,7 +146,12 @@ public class GameScreen implements Screen {
         foregroundX = 0;
 
         activeObstacles = new ArrayList<Obstacle>();
-        timeSinceLastObstacle = 0;
+        timeSinceLastObstacleTop = 0;
+        timeSinceLastObstacleBottom = 0;
+        widthBottom = -110;
+        widthTop = -110;
+        heightBottom = 0;
+        heightTop = 0;
 
         gameOver = false;
         score = 0;
@@ -205,19 +214,41 @@ public class GameScreen implements Screen {
     private void initObstaclePool() {
         obstaclePool = new ArrayList<Obstacle>();
 
+        obstaclePool.add(new Milo1());
+
+        obstaclePool.add(new Milk1());
+        obstaclePool.add(new Milk2());
+        obstaclePool.add(new Milk3());
+        obstaclePool.add(new Milk4());
+        obstaclePool.add(new Nutella1());
+        obstaclePool.add(new Nutella2());
+        obstaclePool.add(new Nutella3());
+        obstaclePool.add(new Beans1());
+        obstaclePool.add(new Beans2());
+        obstaclePool.add(new BeansTuna1());
         obstaclePool.add(new Tuna1());
         obstaclePool.add(new Tuna2());
-        obstaclePool.add(new Milo1());
-        obstaclePool.add(new Beans1());
+        obstaclePool.add(new Tuna3());
+        obstaclePool.add(new Tuna4());
+        obstaclePool.add(new Tuna5());
         obstaclePool.add(new Cereal1());
-        obstaclePool.add(new Nutella1());
-        obstaclePool.add(new Milk1());
+        obstaclePool.add(new Cereal2());
+        obstaclePool.add(new Cereal3());
+        obstaclePool.add(new Cereal4());
+        obstaclePool.add(new Cereal5());
 
-        for (int i = 0; i < 2; i++) {
-            obstaclePool.add(new Meat1());
-            obstaclePool.add(new FishSign1());
-            obstaclePool.add(new FishSign2());
-        }
+        obstaclePool.add(new Meat1());
+        obstaclePool.add(new Meat2());
+        obstaclePool.add(new Meat3());
+        obstaclePool.add(new Meat4());
+        obstaclePool.add(new Sign1());
+        obstaclePool.add(new Sign2());
+        obstaclePool.add(new Sign3());
+        obstaclePool.add(new Sign4());
+        obstaclePool.add(new Sign5());
+        obstaclePool.add(new Sign6());
+        obstaclePool.add(new Sign7());
+        obstaclePool.add(new Sign8());
     }
 
     private void resetObstacles() {
@@ -255,12 +286,13 @@ public class GameScreen implements Screen {
         if (!Gdx.input.isTouched() && pausePressDown) {
             isPaused = false;
             pausePressDown = false;
+            clickSound.play();
             timeHeld = MAX_UPTHRUST;
         }
     }
 
     private void pauseButtonHandler () {
-        if (isPaused) return;
+        if (isPaused || isTitle || gameOverWaitTime <= 0) return;
 
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
@@ -292,10 +324,10 @@ public class GameScreen implements Screen {
         activity.batch.draw(backTex, backgroundX - 827, 0, 827, 432);
 
         // Draw floor
-        activity.batch.draw(floorTex, foregroundX, -160, 480, 180);
-        activity.batch.draw(floorTex, foregroundX+480, -160, 480, 180);
-        activity.batch.draw(floorTex, foregroundX+960, -160, 480, 180);
-        activity.batch.draw(floorTex, foregroundX-480, -160, 480, 180);
+        activity.batch.draw(floorTex, foregroundX, -181, 480, 218);
+        activity.batch.draw(floorTex, foregroundX+480, -181, 480, 218);
+        activity.batch.draw(floorTex, foregroundX+960, -181, 480, 218);
+        activity.batch.draw(floorTex, foregroundX-480, -181, 480, 218);
 
         // Draw obstacles
         for (Obstacle obstacle : activeObstacles) {
@@ -560,9 +592,95 @@ public class GameScreen implements Screen {
     }
 
     private void generateObstacles (float delta) {
-        timeSinceLastObstacle += delta;
-        Collections.shuffle(obstaclePool); // TODO is this slow?
-        if (timeSinceLastObstacle > 0.15f) {
+        widthBottom -= delta*getObstacleSpeed();
+        widthTop -= delta*getObstacleSpeed();
+
+        Collections.shuffle(obstaclePool);
+
+        if (widthTop < -110) heightTop = 0;
+        if (widthBottom < -110) heightBottom = 0;
+
+        if (Math.random() < 0.5f) {
+            generateTop();
+            generateBottom();
+        }
+        else {
+            generateBottom();
+            generateTop();
+        }
+
+    }
+
+    private void generateTop () {
+        if (widthBottom <= -110) {
+            for (Obstacle obstacle : obstaclePool) {
+                if (!obstacle.isActive && obstacle.groundedItem && obstacle.getHeight() + heightTop + getNarrowness() < 407) {
+                    obstacle.x = (int) viewport.getWorldWidth();
+                    obstacle.y = obstacle.groundedItem ?
+                            FLOOR_HEIGHT - obstacle.groundLevel : 432 - obstacle.height;
+                    obstacle.isActive = true;
+                    obstacle.hasScored = false;
+                    if ((Math.random() < getNearFrequency() && widthTop > 0) || (widthTop < 0)) activeObstacles.add(obstacle);
+                    widthBottom = obstacle.width + generatorExtend();
+                    heightBottom = obstacle.getHeight();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void generateBottom () {
+        if (widthTop <= -110) {
+            for (Obstacle obstacle : obstaclePool) {
+                if (!obstacle.isActive && !obstacle.groundedItem && obstacle.getHeight() + heightBottom + getNarrowness() < 407) {
+                    obstacle.x = (int) viewport.getWorldWidth();
+                    obstacle.y = obstacle.groundedItem ?
+                            FLOOR_HEIGHT - obstacle.groundLevel : 432 - obstacle.height;
+                    obstacle.isActive = true;
+                    obstacle.hasScored = false;
+                    if ((Math.random() < getNearFrequency() && widthBottom > 0) || (widthBottom < 0)) activeObstacles.add(obstacle);
+                    widthTop = obstacle.width + generatorExtend();
+                    heightTop = obstacle.getHeight();
+                    break;
+                }
+            }
+        }
+    }
+
+    private float getNearFrequency() {
+        if (score < 10) {
+            return 0;
+        }
+        if (score < 20) {
+            return 0.5f;
+        }
+        if (score < 50) {
+            return 0.6f;
+        }
+        return 0.75f;
+    }
+
+    private float getNarrowness () {
+        if (score < 20) {
+            return 200;
+        }
+        if (score < 50) {
+            return 175;
+        }
+        if (score < 80) {
+            return 165;
+        }
+        if (score < 130) {
+            return 140;
+        }
+        return 130;
+    }
+
+    /*private void generateObstacles (float delta) {
+        timeSinceLastObstacleTop += delta;
+        timeSinceLastObstacleBottom += delta;
+        Collections.shuffle(obstaclePool);
+        if (timeSinceLastObstacleTop > 0.15f) {
             for (Obstacle obstacle : obstaclePool) {
                 if (!obstacle.isActive) {
                     obstacle.x = (int) viewport.getWorldWidth();
@@ -572,26 +690,30 @@ public class GameScreen implements Screen {
                     obstacle.hasScored = false;
                     activeObstacles.add(obstacle);
                     float timeSinceLastExtend = (float) generatorTimeExtend();
-                    timeSinceLastObstacle = -1*obstacle.width/((float) getObstacleSpeed()) - timeSinceLastExtend;
+                    timeSinceLastObstacleTop = -1*obstacle.width/((float) getObstacleSpeed()) - timeSinceLastExtend;
                     break;
                 }
             }
         }
-    }
+    }*/
 
-    private double generatorTimeExtend () {
-        if (score < 10) {
-            return 0.2 + Math.random()*0.6;
+    private float generatorExtend () {
+        if (score < 20) {
+            return (float) Math.random()*200;
         }
         if (score < 50) {
-            return 0.2 - 0.0025*(score-10) + (0.6 - 0.01*(score-10))*Math.random();
+            return (float) Math.random()*120;
         }
-        if (score < 75) {
-            return 0.1 + 0.2*Math.random();
+        if (score < 80) {
+            return (float) Math.random()*100;
         }
-        else {
-            return 0.1*450/getObstacleSpeed(7*score-75*7) + Math.random()*0.2*450/getObstacleSpeed(7*score-75*7);
+        if (score < 120) {
+            return (float) Math.random()*50;
         }
+        if (score < 150) {
+            return (float) Math.random()*30;
+        }
+        return (float) Math.random()*20;
     }
 
     private void moveObstacles (float delta) {
@@ -618,17 +740,16 @@ public class GameScreen implements Screen {
         if (score < 50) {
             return 400 + score;
         }
-        if (score < 75) {
-            return 450;
+        if (score < 100) {
+            return 450 + 1.5*(score-50);
         }
-        return 450 + 1.5*(score-75);
+        return 525 + 2.25*(score-100);
     }
 
     private void moveDoggo(float delta) {
         yVelocity -= GRAVITY*delta;
 
         if (Gdx.input.justTouched() && !pausePressDown && !gameOver) {
-            //jumpSound.stop();
             jumpSound.play();
         }
 

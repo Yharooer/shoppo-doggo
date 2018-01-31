@@ -4,19 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 
-public class Nutella1 extends Obstacle {
+public class Nutella2 extends Obstacle {
 
-    public Nutella1() {
+    public Nutella2() {
         this.typeId = 7;
 
-        this.texture = new Texture(Gdx.files.internal("nutella1.png"));
-        this.width = 69;
+        this.texture = new Texture(Gdx.files.internal("nutella2.png"));
+        this.width = 131;
         this.height = 99;
 
         this.groundLevel = 2;
 
         this.groundedItem = true;
 
-        collisionBoxes = new Rectangle[] {new Rectangle(3,2,64,94)};
+        collisionBoxes = new Rectangle[] {new Rectangle(3,2,125,94)};
     }
 }

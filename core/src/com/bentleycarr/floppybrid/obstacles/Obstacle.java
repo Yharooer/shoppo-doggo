@@ -5,8 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Obstacle {
     public int typeId;
-    public int boundingHeight; // Used for algorithm
-    public Texture texture; // TODO If I have more than one obstacle of same type in the pool, inefficient.
+    public Texture texture;
     public int width;
     public int height;
     public float x;
@@ -14,9 +13,33 @@ public class Obstacle {
     public int groundLevel;
     public boolean groundedItem;
     public Rectangle[] collisionBoxes;
+    private int displayAfterLevel = 0;
 
     public boolean hasScored = false;
     public boolean isActive = false;
+
+    public float getFrequency(int score) {
+        if (score >= displayAfterLevel) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public float getHeight() {
+        float max = 0;
+        if (groundedItem) {
+            for (Rectangle box:collisionBoxes) {
+                if (box.y + box.height > max) max = box.y + box.height;
+            }
+            return max;
+        } else {
+            max = 999999;
+            for (Rectangle box:collisionBoxes) {
+                if (box.y < max) max = box.y;
+            }
+            return this.height - max;
+        }
+    }
 
     public boolean overlaps (Rectangle rect) {
         for (Rectangle box:collisionBoxes) {

@@ -8,17 +8,15 @@ public class Tuna1 extends Obstacle {
 
     public Tuna1() {
         this.typeId = 0;
-        this.boundingHeight = 183;
 
         this.texture = new Texture(Gdx.files.internal("tuna1.png"));
-        this.width = 200;
-        this.height = 200;
+        this.width = 46;
+        this.height = 38;
 
-        this.groundLevel = 12;
+        this.groundLevel = 5;
 
         this.groundedItem = true;
 
-        collisionBoxes = new Rectangle[] {new Rectangle(3,0,56,76),
-            new Rectangle(73,0,55,137), new Rectangle(138, 0, 56,195)};
+        collisionBoxes = new Rectangle[] {new Rectangle(2.4f,0,40.2f,34.2f)};
     }
 }

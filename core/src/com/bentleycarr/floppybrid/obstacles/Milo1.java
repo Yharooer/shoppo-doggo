@@ -8,7 +8,6 @@ public class Milo1 extends Obstacle {
 
     public Milo1() {
         this.typeId = 2;
-        this.boundingHeight = 269;
 
         this.texture = new Texture(Gdx.files.internal("milo1.png"));
         this.width = 315;
