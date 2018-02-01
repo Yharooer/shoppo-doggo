@@ -51,7 +51,7 @@
 		581773AD1E37A7EF004E28A9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5863B87B1DA682C800E46B6A /* ios-moe-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-moe-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5863B88E1DA682C800E46B6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		58C6F5241DA66CB600309CB6 /* floppy-brid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "floppy-brid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		58C6F5241DA66CB600309CB6 /* floppybrid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "floppybrid.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58C6F5381DA66CB600309CB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8084D1F0A307440EC73CBFCA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		AE849253332D33EDDC76AB2C /* moe-main-interfaces.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "moe-main-interfaces.m"; path = "../build/moe/main/ui-headers/moe-main-interfaces.m"; sourceTree = "<group>"; };
@@ -140,7 +140,7 @@
 		58C6F5251DA66CB600309CB6 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				58C6F5241DA66CB600309CB6 /* floppy-brid.app */,
+				58C6F5241DA66CB600309CB6 /* floppybrid.app */,
 				5863B87B1DA682C800E46B6A /* ios-moe-Test.app */,
 			);
 			name = Products;
@@ -209,7 +209,7 @@
 			);
 			name = "ios-moe";
 			productName = "ios-moe";
-			productReference = 58C6F5241DA66CB600309CB6 /* floppy-brid.app */;
+			productReference = 58C6F5241DA66CB600309CB6 /* floppybrid.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -219,7 +219,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0820;
-				ORGANIZATIONNAME = "Bentley Carr/Jagen Yoon";
+				ORGANIZATIONNAME = x;
 				TargetAttributes = {
 					5863B87A1DA682C800E46B6A = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -355,7 +355,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentleycarr.floppybrid;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bentleycarr.floppybrid";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -389,7 +389,7 @@
 					"$(inherited)",
 					"${MOE_OTHER_LDFLAGS}",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentleycarr.floppybrid;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bentleycarr.floppybrid";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_STYLE = "non-global";
 			};
@@ -516,8 +516,8 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentleycarr.floppybrid;
-				PRODUCT_NAME = "floppy-brid";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bentleycarr.floppybrid";
+				PRODUCT_NAME = "floppybrid";
 				STRIP_STYLE = "non-global";
 			};
 			name = Debug;
@@ -553,8 +553,8 @@
 					"${MOE_OTHER_LDFLAGS}",
 					"$(LIBGDX_NATIVES)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentleycarr.floppybrid;
-				PRODUCT_NAME = "floppy-brid";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.bentleycarr.floppybrid";
+				PRODUCT_NAME = "floppybrid";
 				STRIP_STYLE = "non-global";
 			};
 			name = Release;

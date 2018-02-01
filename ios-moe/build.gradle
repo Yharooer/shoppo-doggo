@@ -39,10 +39,10 @@ moe {
         project 'xcode/ios-moe.xcodeproj'
         mainTarget 'ios-moe'
         testTarget 'ios-moe-Test'
+    }
 
-        remoteBuild {
-            resources = [ file("../core/assets") ]
-        }
+    remoteBuild {
+        resources = [ file("../core/assets") ]
     }
 }
 
@@ -55,6 +55,7 @@ moeMainDebugIphonesimulatorXcodeBuild.dependsOn copyNatives
 eclipse {
     // Set Multi-OS Engine nature
     project {
+        name = appName + "-ios-moe"
         natures 'org.multi-os-engine.project'
     }
 }
